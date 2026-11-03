@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import BundlingSection from '../components/BundlingSection.astro';
+import CatalogSection from '../components/CatalogSection.astro';
+import SopSection from '../components/SopSection.astro';
+import BasecampSection from '../components/BasecampSection.astro';
+import RentalCalculator from '../components/RentalCalculator.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Puncak Raya Outdoor - Rental Alat Pendakian & Camping Berkualitas"
+  description="Kalkulator estimasi biaya sewa alat outdoor & pendakian gunung di Yogyakarta. Dapatkan rincian harga akurat dan booking otomatis via WhatsApp."
+>
+  <!-- Main Navigation Bar -->
+  <Navbar />
+
+  <main class="flex-1">
+    <!-- Hero Banner with Quick Date Picker -->
+    <Hero />
+
+    <!-- Bundling Packages Section (Recommended for Beginners & Groups) -->
+    <BundlingSection />
+
+    <!-- Full Equipment Catalog with Category Filters -->
+    <CatalogSection />
+
+    <!-- Rental SOP, Guarantees, & Terms -->
+    <SopSection />
+
+    <!-- Basecamp Map, Address & Hours -->
+    <BasecampSection />
+  </main>
+
+  <!-- Interactive Floating Estimator & WhatsApp Checkout Drawer -->
+  <RentalCalculator />
+
+  <!-- Footer -->
+  <Footer />
+</Layout>
+

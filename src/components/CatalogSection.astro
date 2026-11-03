@@ -1,0 +1,142 @@
+---
+import { EQUIPMENT_LIST, CATEGORIES } from '../data/equipmentData';
+
+const formatRupiah = (val: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(val);
+};
+---
+
+<section id="katalog" class="py-14 sm:py-20 bg-stone-bg/80 border-t border-stone-border" x-data="{ activeCategory: 'all' }">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Title -->
+    <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+      <span class="inline-block px-3 py-1 rounded-full bg-pine-100 text-pine-700 font-bold text-xs uppercase tracking-wider mb-2">
+        Katalog Sewa Satuan
+      </span>
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pine-700 tracking-tight">
+        Pilih Alat Pendakian Sesuai Kebutuhan
+      </h2>
+      <p class="text-stone-muted text-sm sm:text-base mt-2">
+        Seluruh unit dirawat secara berkala, dicuci bersih, dan diuji kelaikannya sebelum diserahterimakan.
+      </p>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar sm:justify-center">
+      {CATEGORIES.map((cat) => (
+        <button
+          type="button"
+          @click={`activeCategory = '${cat.id}'`}
+          :class={`activeCategory === '${cat.id}' ? 'bg-pine-700 text-white shadow-sm' : 'bg-white text-stone-dark hover:bg-stone-100 border border-stone-border'`}
+          class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-colors"
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Equipment Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {EQUIPMENT_LIST.map((item) => (
+        <div
+          x-show={`activeCategory === 'all' || activeCategory === '${item.category}'`}
+          x-transition
+          class="bg-white rounded-xl border border-stone-border hover:border-pine-500 shadow-xs hover:shadow-md transition-all flex flex-col overflow-hidden group"
+        >
+          <!-- Image Container with Badge -->
+          <div class="relative h-48 bg-stone-100 overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.name}
+              loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            {item.badge && (
+              <span class="absolute top-2.5 left-2.5 bg-pine-700/90 text-white text-[11px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs shadow-xs">
+                {item.badge}
+              </span>
+            )}
+            <div class="absolute bottom-2 right-2 bg-stone-dark/80 backdrop-blur-xs text-white text-xs font-bold px-2.5 py-1 rounded-md">
+              {formatRupiah(item.pricePerNight)} <span class="text-[10px] font-normal text-stone-300">/mlm</span>
+            </div>
+          </div>
+
+          <!-- Content Body -->
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-sm sm:text-base text-pine-700 leading-snug line-clamp-2">
+                {item.name}
+              </h4>
+              <p class="text-xs text-stone-muted mt-1 line-clamp-2">
+                {item.description}
+              </p>
+
+              <!-- Specs Pills -->
+              <div class="flex flex-wrap gap-1 mt-3">
+                {item.specs.map((spec) => (
+                  <span class="text-[10px] bg-stone-bg text-pine-700 font-medium px-2 py-0.5 rounded border border-stone-border">
+                    {spec}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Action Area / Quantity Buttons -->
+            <div class="mt-4 pt-3 border-t border-stone-border">
+              
+              <!-- When Item is NOT in cart -->
+              <div x-show={`!$store.rental.getItemQuantity('${item.id}')`}>
+                <button
+                  type="button"
+                  @click={`$store.rental.addItem({ id: '${item.id}', name: '${item.name}', pricePerNight: ${item.pricePerNight} })`}
+                  class="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-pine-700 text-pine-700 hover:bg-pine-700 hover:text-white text-xs font-bold transition-all active:scale-95"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <span>Tambah ke Sewa</span>
+                </button>
+              </div>
+
+              <!-- When Item IS in cart (Stepper) -->
+              <div
+                x-show={`$store.rental.getItemQuantity('${item.id}') > 0`}
+                class="flex items-center justify-between bg-pine-50 border border-pine-200 rounded-lg p-1"
+                style="display: none;"
+              >
+                <button
+                  type="button"
+                  @click={`$store.rental.updateQuantity('${item.id}', -1)`}
+                  class="w-7 h-7 rounded bg-white border border-pine-200 text-pine-700 font-bold hover:bg-pine-100 flex items-center justify-center transition-colors"
+                  aria-label="Kurangi Jumlah"
+                >
+                  -
+                </button>
+                <div class="text-center">
+                  <span class="text-xs font-bold text-pine-700" x-text={`$store.rental.getItemQuantity('${item.id}') + ' unit'`}></span>
+                </div>
+                <button
+                  type="button"
+                  @click={`$store.rental.updateQuantity('${item.id}', 1)`}
+                  class="w-7 h-7 rounded bg-pine-700 text-white font-bold hover:bg-pine-600 flex items-center justify-center transition-colors"
+                  aria-label="Tambah Jumlah"
+                >
+                  +
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+

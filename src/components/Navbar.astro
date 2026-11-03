@@ -1,0 +1,77 @@
+---
+// Navbar.astro
+---
+
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-stone-border transition-all">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-20">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-lg bg-pine-700 flex items-center justify-center text-white font-bold text-xl shadow-sm group-hover:bg-pine-600 transition-colors">
+          ⛰️
+        </div>
+        <div>
+          <span class="block font-bold text-lg sm:text-xl text-pine-700 tracking-tight leading-none group-hover:text-campfire transition-colors">
+            PUNCAK RAYA
+          </span>
+          <span class="text-[11px] font-semibold text-stone-muted tracking-wider uppercase">
+            Outdoor Gear Rental
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-6 text-sm font-semibold text-pine-700">
+        <a href="#bundling" class="px-3 py-2 rounded-md hover:text-campfire hover:bg-pine-50 transition-colors">
+          Paket Bundling
+        </a>
+        <a href="#katalog" class="px-3 py-2 rounded-md hover:text-campfire hover:bg-pine-50 transition-colors">
+          Katalog Alat
+        </a>
+        <a href="#syarat" class="px-3 py-2 rounded-md hover:text-campfire hover:bg-pine-50 transition-colors">
+          Syarat & SOP
+        </a>
+        <a href="#basecamp" class="px-3 py-2 rounded-md hover:text-campfire hover:bg-pine-50 transition-colors">
+          Lokasi Basecamp
+        </a>
+      </nav>
+
+      <!-- Cart / Estimator Action Button -->
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          @click="$store.rental.isDrawerOpen = true"
+          class="relative inline-flex items-center gap-2 bg-pine-700 hover:bg-pine-600 text-white px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-sm font-semibold shadow-sm transition-all active:scale-95"
+          aria-label="Buka Keranjang Estimasi"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span class="hidden sm:inline">Daftar Sewa</span>
+          <!-- Counter Badge -->
+          <span
+            x-show="$store.rental.totalItemsCount > 0"
+            x-text="$store.rental.totalItemsCount"
+            class="bg-campfire text-white text-xs font-bold px-2 py-0.5 rounded-full"
+            style="display: none;"
+          >
+            0
+          </span>
+        </button>
+
+        <!-- Direct WhatsApp Quick Link -->
+        <a
+          href="https://wa.me/6281234567890?text=Halo%20Admin%20Puncak%20Raya%20Outdoor%2C%20saya%20ingin%20tanya%20seputar%20sewa%20alat%20pendakian"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden lg:inline-flex items-center gap-1.5 border border-pine-700 text-pine-700 hover:bg-pine-50 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors"
+        >
+          <span>Chat Admin</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</header>
+

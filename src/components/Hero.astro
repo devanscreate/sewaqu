@@ -1,0 +1,132 @@
+---
+// Hero.astro
+---
+
+<section class="relative bg-pine-900 text-white overflow-hidden py-12 sm:py-20 lg:py-24">
+  <!-- Subtle Background Pattern / Ambient Forest Texture -->
+  <div class="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#356351_1px,transparent_1px)] [background-size:20px_20px]"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Headline & Selling Points -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        <!-- Trust Pill -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pine-800 border border-pine-600/50 text-xs sm:text-sm font-medium text-stone-bg">
+          <span class="w-2 h-2 rounded-full bg-campfire animate-pulse"></span>
+          <span>Rental Outdoor Terpercaya • Basecamp Yogyakarta</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15]">
+          Alat Bersih, Terawat & <br class="hidden sm:inline" />
+          <span class="text-campfire">Siap Temani Puncakmu.</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-stone-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          Tinggalkan cara lama bolak-balik tanya harga di DM. Pilih alat atau paket siap berangkat, atur tanggal pendakian, dan dapatkan total biaya sewa otomatis dalam hitungan detik.
+        </p>
+
+        <!-- Value Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-left">
+          <div class="bg-pine-800/80 border border-pine-700/60 p-3 rounded-lg">
+            <span class="text-xl">✨</span>
+            <h4 class="font-bold text-xs sm:text-sm mt-1 text-white">Steril & Wangi</h4>
+            <p class="text-[11px] text-stone-300">Dicuci bersih tiap kali kembali</p>
+          </div>
+          <div class="bg-pine-800/80 border border-pine-700/60 p-3 rounded-lg">
+            <span class="text-xl">⛺</span>
+            <h4 class="font-bold text-xs sm:text-sm mt-1 text-white">Spek Gunung Asli</h4>
+            <p class="text-[11px] text-stone-300">Double layer & PU 3000mm</p>
+          </div>
+          <div class="col-span-2 sm:col-span-1 bg-pine-800/80 border border-pine-700/60 p-3 rounded-lg">
+            <span class="text-xl">⚡</span>
+            <h4 class="font-bold text-xs sm:text-sm mt-1 text-white">Tanpa Ribet Hitung</h4>
+            <p class="text-[11px] text-stone-300">Rincian otomatis via WhatsApp</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Date Picker Card (Interactive Alpine.js) -->
+      <div class="lg:col-span-5">
+        <div class="bg-white text-stone-dark rounded-2xl p-6 sm:p-7 shadow-xl border border-stone-border">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-stone-border">
+            <div>
+              <h3 class="font-bold text-lg text-pine-700">Tentukan Jadwal Sewa</h3>
+              <p class="text-xs text-stone-muted">Hitungan tarif disesuaikan dengan durasi malam</p>
+            </div>
+            <span class="text-2xl">🗓️</span>
+          </div>
+
+          <form class="space-y-4 mt-5" @submit.prevent>
+            <!-- Tanggal Ambil -->
+            <div>
+              <label class="block text-xs font-bold text-pine-700 uppercase tracking-wider mb-1.5">
+                Tanggal Ambil Alat (Basecamp)
+              </label>
+              <div class="relative">
+                <input
+                  type="date"
+                  x-model="$store.rental.startDate"
+                  class="w-full bg-stone-bg border border-stone-border rounded-lg px-3.5 py-2.5 text-sm font-semibold text-stone-dark focus:ring-2 focus:ring-campfire focus:border-campfire outline-none transition-all"
+                />
+              </div>
+              <p class="text-[11px] text-stone-muted mt-1">Disarankan ambil sore hari H-1 sebelum keberangkatan.</p>
+            </div>
+
+            <!-- Tanggal Kembali -->
+            <div>
+              <label class="block text-xs font-bold text-pine-700 uppercase tracking-wider mb-1.5">
+                Tanggal Pengembalian
+              </label>
+              <div class="relative">
+                <input
+                  type="date"
+                  x-model="$store.rental.endDate"
+                  class="w-full bg-stone-bg border border-stone-border rounded-lg px-3.5 py-2.5 text-sm font-semibold text-stone-dark focus:ring-2 focus:ring-campfire focus:border-campfire outline-none transition-all"
+                />
+              </div>
+              <p class="text-[11px] text-stone-muted mt-1">Toleransi keterlambatan 2 jam di hari pengembalian.</p>
+            </div>
+
+            <!-- Calculation Banner -->
+            <div class="bg-pine-50 border border-pine-100 rounded-xl p-3.5 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-pine-600 font-medium block">Durasi Sewa Terhitung:</span>
+                <span class="text-lg font-bold text-pine-700" x-text="$store.rental.nights + ' Malam Sewa'">
+                  2 Malam Sewa
+                </span>
+              </div>
+              <div class="text-right">
+                <span class="text-[11px] text-stone-muted block">Tarif Dikalikan:</span>
+                <span class="inline-block px-2.5 py-0.5 bg-campfire text-white text-xs font-bold rounded-full" x-text="'× ' + $store.rental.nights">
+                  × 2
+                </span>
+              </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="pt-2 grid grid-cols-2 gap-2.5">
+              <a
+                href="#bundling"
+                class="inline-flex items-center justify-center text-center px-4 py-2.5 bg-campfire hover:bg-campfire-hover text-white text-sm font-bold rounded-lg transition-colors shadow-sm"
+              >
+                Lihat Bundling
+              </a>
+              <a
+                href="#katalog"
+                class="inline-flex items-center justify-center text-center px-4 py-2.5 border border-pine-700 text-pine-700 hover:bg-pine-50 text-sm font-bold rounded-lg transition-colors"
+              >
+                Pilih Eceran
+              </a>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
